@@ -35,19 +35,20 @@ uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 if uploaded_file is not None:
     doc = fitz.open(stream=uploaded_file.read())
 
-    # Initialize vectorstore before processing pages
-    vectorstore = Chroma.from_documents(documents=[], embedding=OpenAIEmbeddings())
-
-    # Process each page individually
+   # Extract text from the entire PDF
+    text = ""
     for page in doc:
-        page_text = page.get_text()
-        page_splits = text_splitter.split_text(page_text)
+        text += page.get_text()
 
-        # Create Document objects with page metadata
-        page_documents = [Document(split, {"page": page.number}) for split in page_splits]
+    # Text splitting
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    splits = text_splitter.split_text(text)
 
-        # Add documents to the vectorstore directly
-        vectorstore.add_documents(page_documents)
+    # Wrap splits into Document objects
+    documents = [Document(split) for split in splits]
+
+    # Initialize and populate the vectorstore
+    vectorstore = Chroma.from_documents(documents=documents, embedding=OpenAIEmbeddings())
 
     # Retrieval and generation
     retriever = vectorstore.as_retriever()
