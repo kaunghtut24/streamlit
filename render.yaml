@@ -1,0 +1,16 @@
+# Exported from Render on 2024-05-02T08:09:46Z
+services:
+- type: web
+  name: streamlit
+  runtime: python
+  repo: https://github.com/kaunghtut24/streamlit
+  plan: free
+  envVars:
+  - key: OPENAI_API_KEY
+    sync: false
+  region: oregon
+  buildCommand: pip install -r requirements.txt
+  startCommand: streamlit run main.py
+  domains:
+  - my.chatmyapp.online
+version: "1"

@@ -1,0 +1,8 @@
+# Python virtual environment directories
+__pycache__/
+venv/
+.venv/
+myenv/
+chatenv/
+
+# Distribution
