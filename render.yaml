@@ -10,7 +10,7 @@ services:
     sync: false
   region: oregon
   buildCommand: pip install -r requirements.txt
-  startCommand: streamlit run main.py
+  startCommand: streamlit run app.py
   domains:
   - my.chatmyapp.online
 version: "1"
