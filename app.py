@@ -75,14 +75,11 @@ if uploaded_file is not None:
     """
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     llm = ChatOpenAI(
-    model="gpt-3.5-turbo-0125",  # You can experiment with different models here
-    temperature=0.4,  # Adjust temperature for creativity vs. factual responses
-    max_tokens=1024,  # Maximum number of tokens in the generated response
-    n=1,  # Number of responses to generate (useful for sampling multiple answers)
-)
-
-    def format_docs(docs):
-        return "\n\n".join(doc.page_content for doc in docs)
+        model="gpt-3.5-turbo-0125",  # You can experiment with different models here
+        temperature=0.4,  # Adjust temperature for creativity vs. factual responses
+        max_tokens=1024,  # Maximum number of tokens in the generated response
+        n=1,  # Number of responses to generate (useful for sampling multiple answers)
+    )
 
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
