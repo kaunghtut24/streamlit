@@ -87,7 +87,7 @@ def main():
             prompt = hub.pull("rlm/rag-prompt")
             # Initialize ChatOpenAI model with longer response settings
             llm = ChatOpenAI(
-                model="gpt-3.5-turbo-0125",
+                model="gpt-4o",
                 temperature=0.5,    # Adjust temperature for creativity vs. factual responses
                 max_tokens=2048,     # Increase max_tokens for longer responses
                 n=1,                 # Generate one response
