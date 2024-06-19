@@ -7,6 +7,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+import os
 import sys
 
 try:
@@ -15,7 +16,20 @@ try:
 except ImportError:
     print("pysqlite3-binary is not installed. Chroma might not work correctly.")
 
+# Load environment variables from .env file
 dotenv.load_dotenv()
+
+# Get the OpenAI API key from environment variables
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
+# Ensure the API key is set
+if not openai_api_key:
+    raise ValueError("OpenAI API key not found. Please set it in the .env file.")
+
+# Use the OpenAI API key
+import openai
+openai.api_key = openai_api_key
+
 
 # Define a class to encapsulate document sections
 class Document:
