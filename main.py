@@ -65,7 +65,7 @@ def main():
             # Open the PDF file
             with pdfplumber.open(uploaded_file) as pdf:
                 # Display the PDF file
-                st.paged_pdf_viewer(pdf)
+                st.paged_pdf_viewer(pdf.pages)
 
             # Extract text from the entire PDF
             text = ""
