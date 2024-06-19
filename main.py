@@ -10,15 +10,17 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
 import sys
 
+# Load environment variables from .env file
+dotenv.load_dotenv()
+
 # Attempt to import pysqlite3 and replace sqlite3 module if available
 try:
     import pysqlite3
-    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+    sys.modules['sqlite3'] = sys.modules.get('pysqlite3', sys.modules['sqlite3'])
 except ImportError:
     print("pysqlite3-binary is not installed. Chroma might not work correctly.")
-
-# Load environment variables from .env file
-dotenv.load_dotenv()
+except KeyError:
+    print("sqlite3 module not found. Chroma might not work correctly.")
 
 # Get the OpenAI API key from environment variables
 openai_api_key = os.getenv("OPENAI_API_KEY")
