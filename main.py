@@ -84,7 +84,7 @@ if uploaded_file is not None:
     temperature=0.5,    # Adjust temperature for creativity vs. factual responses
     max_tokens=2048,     # Increase max_tokens for longer responses
     n=1,                 # Generate one response
-    top_p=0.95           # Adjust top_p for diversity if needed
+    model_kwargs={"top_p": 0.70}  # Pass top_p through model_kwargs
 )
 
     def format_docs(docs):
