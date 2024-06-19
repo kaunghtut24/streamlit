@@ -13,14 +13,22 @@ import sys
 # Load environment variables from .env file
 dotenv.load_dotenv()
 
-# Attempt to import pysqlite3 and replace sqlite3 module if available
+# Swap stdlib sqlite3 with pysqlite3
 try:
-    import pysqlite3
-    sys.modules['sqlite3'] = sys.modules.get('pysqlite3', sys.modules['sqlite3'])
+    __import__('pysqlite3')
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 except ImportError:
     print("pysqlite3-binary is not installed. Chroma might not work correctly.")
 except KeyError:
     print("sqlite3 module not found. Chroma might not work correctly.")
+
+# Check SQLite version
+import sqlite3
+sqlite_version = sqlite3.sqlite_version
+if sqlite_version < '3.35.0':
+    raise RuntimeError(f"Your system has an unsupported version of sqlite3: {sqlite_version}. "
+                       "Chroma requires sqlite3 >= 3.35.0. "
+                       "Please visit https://docs.trychroma.com/troubleshooting#sqlite to learn how to upgrade.")
 
 # Get the OpenAI API key from environment variables
 openai_api_key = os.getenv("OPENAI_API_KEY")
