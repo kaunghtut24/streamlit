@@ -10,8 +10,9 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
 import sys
 
+# Attempt to import pysqlite3 and replace sqlite3 module if available
 try:
-    __import__('pysqlite3')
+    import pysqlite3
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 except ImportError:
     print("pysqlite3-binary is not installed. Chroma might not work correctly.")
