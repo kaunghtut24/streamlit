@@ -1,6 +1,7 @@
 import dotenv
 import streamlit as st
 import fitz  # PyMuPDF
+import pdfplumber
 from langchain import hub
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -61,7 +62,10 @@ def main():
 
     if uploaded_file is not None:
         try:
-            doc = fitz.open(stream=uploaded_file.read())
+            # Open the PDF file
+            with pdfplumber.open(uploaded_file) as pdf:
+                # Display the PDF file
+                st.paged_pdf_viewer(pdf)
 
             # Extract text from the entire PDF
             text = ""
